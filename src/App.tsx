@@ -2,39 +2,51 @@ import React, {useState} from 'react';
 import './App.css';
 import TodoList, {TaskType} from "./Todolist";
 
-type FilterValueType = "All" | "Completed" | "Active"
+export type FilterValueType = "All" | "Completed" | "Active"
 function App() {
 
     let title = "Want to Create"
     let [tasks, setTasks] = useState<Array<TaskType>>([
-        {id: 1, title: 'HTML&CSS', isDone: true},
-        {id: 2, title: 'NativeJS', isDone: true},
-        {id: 3, title: 'Redux', isDone: true},
-        {id: 4, title: 'JS', isDone: true},
-        {id: 5, title: 'React', isDone: false},
+        {id: 1, title: 'HTML&CSS', isDone: false},
+        {id: 2, title: 'NativeJS', isDone: false},
+        {id: 3, title: 'Redux', isDone: false},
+        {id: 4, title: 'JS', isDone: false},
+        {id: 5, title: 'React', isDone: false}
     ])
     let [filtered, setFiltered] = useState<FilterValueType>("All")
+    let [checked, setChecked] = useState(false)
+
     function RemoveTasks(id: number) {
         let filteredTasks= tasks.filter(t => (t.id !== id))
         setTasks(filteredTasks)
     }
-    function FilterTasks(value:FilterValueType) {
-        setFiltered(value)
-    }
+    function FilteredTasks(value: FilterValueType) {
+        setFiltered(value)}
 
-    let taskToList = tasks
-    if (filtered === "Completed") {
-        taskToList = tasks.filter( t => t.isDone )
-    } if (filtered === "Active"){
-        taskToList = tasks.filter( t => !t.isDone )
+        let tasksToShow = tasks
+        if (filtered === "Completed") {
+            tasksToShow = tasks.filter((t) => t.isDone)
+        }
+        if (filtered === "Active") {
+            tasksToShow = tasks.filter((t) => !t.isDone)
+        }
+        function CheckedTasks(value: boolean) {
+            setChecked(value)
+        }
+        if (checked){
+            tasksToShow = tasks.map( (t)=>{} )
+        }if (checked){
+            tasksToShow = tasks.map( (t)=>{} )
     }
 
 
     return <div className="App">
-        <TodoList tasks={taskToList}
+        <TodoList tasks={tasksToShow}
                   RemoveTasks={RemoveTasks}
-                  FilterTasks={FilterTasks}
-                  title={title}/>
+                  title={title}
+                  FilteredTasks={FilteredTasks}
+                  CheckedTasks={CheckedTasks}
+        />
     </div>
 }
 
