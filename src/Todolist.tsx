@@ -6,7 +6,6 @@ export type TodoListPropsType = {
     tasks: Array<TaskType>
     RemoveTasks: (id:number) => void
     FilteredTasks: (value: FilterValueType) => void
-    CheckedTasks: (value: boolean) => void
 }
 
 export type TaskType = {
@@ -32,7 +31,7 @@ const TodoList: FC<TodoListPropsType> = (
             <ul>
                 {
                     tasks.map(t => <li>
-                        <input type="checkbox" onChange={ ()=>{CheckedTasks()} }
+                        <input type="checkbox"
                         />
                         <span>{t.title}</span>
                         <button onClick={() => {

@@ -14,7 +14,6 @@ function App() {
         {id: 5, title: 'React', isDone: false}
     ])
     let [filtered, setFiltered] = useState<FilterValueType>("All")
-    let [checked, setChecked] = useState(false)
 
     function RemoveTasks(id: number) {
         let filteredTasks= tasks.filter(t => (t.id !== id))
@@ -30,14 +29,6 @@ function App() {
         if (filtered === "Active") {
             tasksToShow = tasks.filter((t) => !t.isDone)
         }
-        function CheckedTasks(value: boolean) {
-            setChecked(value)
-        }
-        if (checked){
-            tasksToShow = tasks.map( (t)=>{} )
-        }if (checked){
-            tasksToShow = tasks.map( (t)=>{} )
-    }
 
 
     return <div className="App">
@@ -45,7 +36,6 @@ function App() {
                   RemoveTasks={RemoveTasks}
                   title={title}
                   FilteredTasks={FilteredTasks}
-                  CheckedTasks={CheckedTasks}
         />
     </div>
 }
