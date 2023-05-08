@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, KeyboardEvent } from 'react';
 import { FilterValueType } from './App';
 
 export type TodoListPropsType = {
@@ -23,7 +23,6 @@ const TodoList: FC<TodoListPropsType> = ({
   AddTask,
 }) => {
   let [AddTitle, setAddTitle] = useState('');
-
   const OnChangeAddTitleHandler = (e: any) => {
     setAddTitle(e.currentTarget.value);
   };
@@ -31,58 +30,48 @@ const TodoList: FC<TodoListPropsType> = ({
     AddTask(AddTitle);
     setAddTitle('');
   };
+  const OnKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    e.key === 'Enter' && OnClickNewTaskHandler();
+  };
+  let mappedTasks = tasks.map((t) => (
+    <li>
+      <input type="checkbox" checked={t.isDone} />
+      <span>{t.title}</span>
+      <button
+        onClick={() => {
+          RemoveTasks(t.id);
+        }}
+      >
+        x
+      </button>
+    </li>
+  ));
+  const SetAll = () => {
+    FilteredTasks('All');
+  };
+  const SetActive = () => {
+    FilteredTasks('Active');
+  };
+  const SetCompleted = () => {
+    FilteredTasks('Completed');
+  };
 
   return (
     <div>
       <h3>{title}</h3>
       <div>
-        <input value={AddTitle} onChange={OnChangeAddTitleHandler} onKeyDown={(e) => {
-            if (e.key === 'Enter') OnChangeAddTitleHandler; 
-          }}/>
-        <button
-          onClick={OnClickNewTaskHandler}
-          
-        >
-          +
-        </button>
+        <input
+          value={AddTitle}
+          onChange={OnChangeAddTitleHandler}
+          onKeyDown={(e) => OnKeyDownHandler(e)}
+        />
+        <button onClick={OnClickNewTaskHandler}>+</button>
       </div>
-      <ul>
-        {tasks.map((t) => (
-          <li>
-            <input type="checkbox" checked={t.isDone} />
-            <span>{t.title}</span>
-            <button
-              onClick={() => {
-                RemoveTasks(t.id);
-              }}
-            >
-              x
-            </button>
-          </li>
-        ))}
-      </ul>
+      <ul>{mappedTasks}</ul>
       <div>
-        <button
-          onClick={() => {
-            FilteredTasks('All');
-          }}
-        >
-          All
-        </button>
-        <button
-          onClick={() => {
-            FilteredTasks('Active');
-          }}
-        >
-          Active
-        </button>
-        <button
-          onClick={() => {
-            FilteredTasks('Completed');
-          }}
-        >
-          Completed
-        </button>
+        <button onClick={SetAll}>All</button>
+        <button onClick={SetActive}>Active</button>
+        <button onClick={SetCompleted}>Completed</button>
       </div>
     </div>
   );
