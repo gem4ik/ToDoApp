@@ -36,11 +36,15 @@ const TodoList: FC<TodoListPropsType> = ({
     <div>
       <h3>{title}</h3>
       <div>
-        <input
-          value={AddTitle}
-          onChange={OnChangeAddTitleHandler}
-        />
-        <button onClick={OnClickNewTaskHandler}>+</button>
+        <input value={AddTitle} onChange={OnChangeAddTitleHandler} onKeyDown={(e) => {
+            if (e.key === 'Enter') OnChangeAddTitleHandler; 
+          }}/>
+        <button
+          onClick={OnClickNewTaskHandler}
+          
+        >
+          +
+        </button>
       </div>
       <ul>
         {tasks.map((t) => (
