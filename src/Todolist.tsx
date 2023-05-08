@@ -33,19 +33,21 @@ const TodoList: FC<TodoListPropsType> = ({
   const OnKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     e.key === 'Enter' && OnClickNewTaskHandler();
   };
-  let mappedTasks = tasks.map((t) => (
-    <li>
-      <input type="checkbox" checked={t.isDone} />
-      <span>{t.title}</span>
-      <button
-        onClick={() => {
-          RemoveTasks(t.id);
-        }}
-      >
-        x
-      </button>
-    </li>
-  ));
+  let mappedTasks = tasks.map((t) => {
+    const Removetask = () => {
+      () => {
+        RemoveTasks(t.id);
+      };
+    };
+    return (
+      <li>
+        <input type="checkbox" checked={t.isDone} />
+        <span>{t.title}</span>
+        <button onClick={Removetask}>x</button>
+      </li>
+    );
+  });
+
   const SetAll = () => {
     FilteredTasks('All');
   };
