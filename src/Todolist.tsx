@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { FilterValueType } from './App';
 
 export type TodoListPropsType = {
@@ -6,6 +6,7 @@ export type TodoListPropsType = {
   tasks: Array<TaskType>;
   RemoveTasks: (id: string) => void;
   FilteredTasks: (value: FilterValueType) => void;
+  AddTask: (e: any) => void;
 };
 
 export type TaskType = {
@@ -19,13 +20,27 @@ const TodoList: FC<TodoListPropsType> = ({
   tasks,
   FilteredTasks,
   RemoveTasks,
+  AddTask,
 }) => {
+  let [AddTitle, setAddTitle] = useState('');
+
+  const OnChangeAddTitleHandler = (e: any) => {
+    setAddTitle(e.currentTarget.value);
+  };
+  const OnClickNewTaskHandler = () => {
+    AddTask(AddTitle);
+    setAddTitle('');
+  };
+
   return (
     <div>
       <h3>{title}</h3>
       <div>
-        <input />
-        <button>+</button>
+        <input
+          value={AddTitle}
+          onChange={OnChangeAddTitleHandler}
+        />
+        <button onClick={OnClickNewTaskHandler}>+</button>
       </div>
       <ul>
         {tasks.map((t) => (
