@@ -9,6 +9,7 @@ export type TodoListPropsType = {
     FilteredTasks: (value: FilterValueType) => void
     AddNewTaskTitle:(newTask: string)=>void
     filtered: FilterValueType
+    ChangeTaskStatus: (id: string, newIsDone: boolean)=> void
 }
 
 export type TaskType = {
@@ -24,7 +25,8 @@ const TodoList: FC<TodoListPropsType> = (
         FilteredTasks,
         RemoveTasks,
         AddNewTaskTitle,
-        filtered
+        filtered,
+        ChangeTaskStatus
     }) => {
     let [newTask, setNewTask] = useState<string>('')
     let [error, setError] = useState<string|null>(null)
@@ -41,15 +43,27 @@ const TodoList: FC<TodoListPropsType> = (
         if (e.key === "Enter") ButtonAddTaskHandler()
     }
 
-    const mappedTasks =  tasks.map(t => <li className={(t.isDone)? "is-done" : ""}>
-        <input type="checkbox"
-        />
-        <span>{t.title}</span>
-        <button onClick={() => {
-            RemoveTasks(t.id)
-        }}>x
-        </button>
-    </li>)
+
+    const mappedTasks =  tasks.map(t => {
+        const OnChangeStatsHandler = (e: ChangeEvent<HTMLInputElement>) =>{
+            let newIsDone = e.currentTarget.checked
+            ChangeTaskStatus(t.id, newIsDone)
+        }
+        return (
+            <li className={(t.isDone)? "is-done" : ""}>
+                <input type = "checkbox"
+                       checked={t.isDone}
+                       onChange={OnChangeStatsHandler}
+                />
+                <span>{t.title}</span>
+                <button onClick={() => {
+                    RemoveTasks(t.id)
+                }}>x
+                </button>
+            </li>
+        )
+    })
+
     return (
         <div>
             <h3>{title}</h3>

@@ -29,6 +29,12 @@ function App() {
         setTasks(newTasks)
     }
 
+    function ChangeTaskStatus( id: string, newIsDone:boolean) {
+        const task = tasks.find(t=> t.id === id)
+        if(task) task.isDone = newIsDone
+        setTasks([...tasks])
+    }
+
         let tasksToShow = tasks
         if (filtered === "Completed") {
             tasksToShow = tasks.filter((t) => t.isDone)
@@ -45,6 +51,7 @@ function App() {
                   FilteredTasks={FilteredTasks}
                   AddNewTaskTitle={AddNewTaskTitle}
                   filtered={filtered}
+                  ChangeTaskStatus={ChangeTaskStatus}
         />
     </div>
 }
