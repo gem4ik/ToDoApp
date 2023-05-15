@@ -22,6 +22,7 @@ function App() {
     }
     function FilteredTasks(value: FilterValueType) {
         setFiltered(value)}
+        
     function AddNewTaskTitle(newTask: string) {
     let newAddedTask = {id: v1(), title: newTask, isDone: false }
         let newTasks = [newAddedTask, ...tasks]
