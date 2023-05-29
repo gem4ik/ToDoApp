@@ -1,6 +1,7 @@
 import React, {ChangeEvent, FC, useState, KeyboardEvent} from "react";
 import {FilterValueType} from "./App";
 import './Todolist.css'
+import {SuperInput} from "./SuperComponents/SuperInput";
 
 export type TodoListPropsType = {
     title: string
@@ -13,7 +14,6 @@ export type TodoListPropsType = {
     todoListId: string
     removeTodo: (todoListId:string) => void
 }
-
 export type TaskType = {
     id: string
     title: string
@@ -72,43 +72,42 @@ const TodoList: FC<TodoListPropsType> = (
     })
 
     return (
-        <div>
-            <div className={"header"}>
-                <h3>{title}</h3>
-                <button
-                    onClick={deleteToDoHandler}
-                >X</button>
-            </div>
-            <div>
-                <input
-                    onChange={(e)=>{NewTaskAddHandler(e)}}
-                    value={newTask}
-                    className={error? "error": ""}
-                    onKeyDown={e=>{KeyPressHandler(e)}}
-                />
-                <button
-                    onClick={ButtonAddTaskHandler}
-                >+</button>
-                {error && <div className='error-message'>{error}</div>}
-            </div>
-            <ul>
-                {mappedTasks}
-            </ul>
-            <div>
-                <button
-                    onClick={() => {FilteredTasks(todoListId,"All")}}
-                    className={(filtered === "All")? "active-filter": ""}
-                >All
-                </button>
-                <button
-                    onClick={() => {FilteredTasks(todoListId,"Active")}}
-                    className={(filtered === "Active")? "active-filter": ""}
-                >Active
-                </button>
-                <button onClick={() => {FilteredTasks(todoListId,"Completed")}}
-                        className={(filtered === "Completed")? "active-filter": ""}
-                >Completed
-                </button>
+        <div className={'wrapper'}>
+            <div className={'smallWrapper'}>
+                <div className={"header"}>
+                    <h3>{title}</h3>
+                    <button
+                        onClick={deleteToDoHandler}
+                    >X</button>
+                </div>
+                <div>
+                    <SuperInput
+                        value={newTask}
+                        error={error}
+                        onChangeCallBack={(e)=>{NewTaskAddHandler(e)}}
+                        onClickCallBack={ButtonAddTaskHandler}
+                        onKeyDownCallBack={e=>{KeyPressHandler(e)}}
+                    />
+                </div>
+                <ul>
+                    {mappedTasks}
+                </ul>
+                <div>
+                    <button
+                        onClick={() => {FilteredTasks(todoListId,"All")}}
+                        className={(filtered === "All")? "active-filter": ""}
+                    >All
+                    </button>
+                    <button
+                        onClick={() => {FilteredTasks(todoListId,"Active")}}
+                        className={(filtered === "Active")? "active-filter": ""}
+                    >Active
+                    </button>
+                    <button onClick={() => {FilteredTasks(todoListId,"Completed")}}
+                            className={(filtered === "Completed")? "active-filter": ""}
+                    >Completed
+                    </button>
+                </div>
             </div>
         </div>
     )
