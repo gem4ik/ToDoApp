@@ -1,9 +1,9 @@
 import React, {ChangeEvent, useState} from 'react';
 import s from './App.module.css';
 import {SuperAddItemForm} from "./SuperComponents/SuperAddItemForm";
-import {SuperButton} from "./SuperComponents/SuperButton";
 import {v1} from "uuid";
 import {Tasks} from "./tasks";
+import {SuperEditableSpan} from "./SuperComponents/SuperEditableSpan";
 
 export type FilterValueType = "All" | "Completed" | "Active"
 export type TodoListsType = {
@@ -49,15 +49,21 @@ function App() {
         const todoListId = v1()
         const newTodoList: TodoListsType = {id: todoListId, title: title, filter: 'All'}
         setToDoLists([...toDoLists, newTodoList])
-        setTasks({...tasks, [todoListId] : []})
+        setTasks({...tasks, [todoListId]: []})
     }
     const removeTodolist = (todoListId: string) => {
-            setToDoLists(toDoLists.filter(t => t.id !== todoListId))
-            delete tasks[todoListId]
-            setTasks({...tasks})
+        setToDoLists(toDoLists.filter(t => t.id !== todoListId))
+        delete tasks[todoListId]
+        setTasks({...tasks})
+    }
+    const ChangeTodoTitle = (todoListId: string, newTitle: string) => {
+        debugger
+        const todo = toDoLists.find(t => t.id === todoListId)
+        if (todo) todo.title = newTitle
+        setToDoLists([...toDoLists])
     }
 //-------------функции для тасок--------------------------------------
-    const addTask =(todoListId: string, title: string)=> {
+    const addTask = (todoListId: string, title: string) => {
         const newTask: TaskType = {id: v1(), title: title, isDone: false}
         let todolistTasks = tasks[todoListId]
         tasks[todoListId] = [newTask, ...todolistTasks]
@@ -73,11 +79,12 @@ function App() {
         if (task) task.isDone = newIsDone
         setTasks({...tasks})
     }
-    const ChangeTaskTitle = (todoListId: string, id: string, newTitle: string)=> {
+    const ChangeTaskTitle = (todoListId: string, id: string, newTitle: string) => {
         const task = tasks[todoListId].find(t => t.id === id)
         if (task) task.title = newTitle
         setTasks({...tasks})
     }
+
 
     return (
         <div className={s.wrapper}>
@@ -88,20 +95,21 @@ function App() {
                 />
             </div>
             {toDoLists.map(tl => {
-
-                const removeTodolistHandler=()=>{
+                const removeTodolistHandler = () => {
                     removeTodolist(tl.id)
                 }
-                const addTaskHandler =(title: string)=> {
+                const addTaskHandler = (title: string) => {
                     addTask(tl.id, title)
                 }
-
-                const filteredTasks =(todoListId: string, value: FilterValueType)=> {
+                const filteredTasks = (todoListId: string, value: FilterValueType) => {
                     const toDo = toDoLists.find(tl => tl.id === todoListId)
                     if (toDo) {
                         tl.filter = value
                         setToDoLists([...toDoLists])
                     }
+                }
+                const ChangeTodoTitleHandler = (title: string) => {
+                    ChangeTodoTitle(tl.id, title)
                 }
 
                 let allTasks = tasks[tl.id]
@@ -116,8 +124,13 @@ function App() {
                 return (
                     <div className={s.task}>
                         <div className={s.title}>
-                            <h3>{tl.title}</h3>
-                            <button onClick={removeTodolistHandler}>X</button>
+                            <h3><SuperEditableSpan
+                                title={tl.title}
+                                callback={ChangeTodoTitleHandler}/></h3>
+                            <button
+                                className={s.addTodoButton}
+                                onClick={removeTodolistHandler}
+                            >X</button>
                         </div>
                         <div>
                             <SuperAddItemForm
@@ -125,22 +138,22 @@ function App() {
                                 title={"+"}
                             />
                         </div>
-                        <ul>
-                            {tasksToShow.map(t=>{
-                                const OnChangeStatus = (e: ChangeEvent<HTMLInputElement>) =>{
+                        <div>
+                            {tasksToShow.map((t,index) => {
+                                const OnChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
                                     let newIsDone = e.currentTarget.checked
                                     ChangeTaskStatus(tl.id, t.id, newIsDone)
                                 }
-                                const ChangeTaskTitleHandler =(newTitle: string)=>{
+                                const ChangeTaskTitleHandler = (newTitle: string) => {
                                     ChangeTaskTitle(tl.id, t.id, newTitle)
                                 }
-                                const removeTaskHandler =()=> {
-                                    removeTask(tl.id,t.id )
+                                const removeTaskHandler = () => {
+                                    removeTask(tl.id, t.id)
                                 }
 
-                                return(
+                                return (
                                     <Tasks
-                                        key={tl.id}
+                                        key={index}
                                         tasks={t.title}
                                         isDone={t.isDone}
                                         removeTask={removeTaskHandler}
@@ -149,18 +162,24 @@ function App() {
                                     />
                                 )
                             })}
-                        </ul>
+                        </div>
                         <div className={s.filterButton}>
                             <button
-                                onClick={() => {filteredTasks(tl.id,"All")}}
-                                className={(tl.filter === "All")? s.activeFilter : ""}>All
+                                onClick={() => {
+                                    filteredTasks(tl.id, "All")
+                                }}
+                                className={(tl.filter === "All") ? s.activeFilter : ""}>All
                             </button>
                             <button
-                                onClick={() => {filteredTasks(tl.id,"Active")}}
-                                className={(tl.filter === "Active")? s.activeFilter: ""}>Active
+                                onClick={() => {
+                                    filteredTasks(tl.id, "Active")
+                                }}
+                                className={(tl.filter === "Active") ? s.activeFilter : ""}>Active
                             </button>
-                            <button onClick={() => {filteredTasks(tl.id,"Completed")}}
-                                    className={(tl.filter === "Completed")? s.activeFilter: ""}>Completed
+                            <button onClick={() => {
+                                filteredTasks(tl.id, "Completed")
+                            }}
+                                    className={(tl.filter === "Completed") ? s.activeFilter : ""}>Completed
                             </button>
                         </div>
                     </div>

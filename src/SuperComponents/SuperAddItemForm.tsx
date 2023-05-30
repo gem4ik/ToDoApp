@@ -10,7 +10,6 @@ export type SuperAddItemFormProps = {
 export const SuperAddItemForm =(props: SuperAddItemFormProps)=> {
 
     const [title, setTitle] = useState('')
-
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
@@ -29,6 +28,7 @@ export const SuperAddItemForm =(props: SuperAddItemFormProps)=> {
                 type="text"
                 onChange={onChangeHandler}
                 onKeyDown={onKeyDownHandler}
+                className={s.input}
             />
             <SuperButton
                 callback={onClickHandler}

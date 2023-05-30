@@ -4,37 +4,38 @@ import s from './Tasks.module.css'
 import {SuperButton} from "./SuperComponents/SuperButton";
 import {SuperEditableSpan} from "./SuperComponents/SuperEditableSpan";
 
-export type TasksPropsType={
+export type TasksPropsType = {
     tasks: string
     isDone: boolean
-    removeTask: ()=> void
-    OnChangeStatusHandler: (e: ChangeEvent<HTMLInputElement>)=>void
-    ChangeTaskTitleHandler: (newTitle: string)=> void
+    removeTask: () => void
+    OnChangeStatusHandler: (e: ChangeEvent<HTMLInputElement>) => void
+    ChangeTaskTitleHandler: (newTitle: string) => void
 }
 
 export const Tasks = (props: TasksPropsType) => {
 
 
-    const{
+    const {
         tasks,
         isDone,
         ChangeTaskTitleHandler,
-    }=props
+    } = props
     return (
         <div className={s.tasks}>
-            <input type = "checkbox"
+            <input
+                className={s.checkBox}
+                type="checkbox"
                    checked={isDone}
                    onChange={props.OnChangeStatusHandler}
             />
-                <SuperEditableSpan
-                    callback={ChangeTaskTitleHandler}
-                    title={tasks}
-                />
+            <SuperEditableSpan
+                callback={ChangeTaskTitleHandler}
+                title={tasks}
+            />
             <SuperButton
                 callback={props.removeTask}
                 title={'X'}
             />
-
         </div>
     );
 };

@@ -1,6 +1,9 @@
 .wrapper {
     display: flex;
 }
+.wrapper button {
+    background-color: transparent;
+}
 .filterButton {
     display: flex;
     align-items: center;
@@ -8,16 +11,17 @@
     margin: 10px;
 }
 .task {
-    border: 2px solid red;
+    border: 2px solid black;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
+    margin: 10px;
 }
 .title {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 10px;
 }
 .activeFilter {
-    background-color: aquamarine;
+    border: 2px solid white;
 }
