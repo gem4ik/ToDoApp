@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {TextField} from "@mui/material";
 
 
 export type SuperEditableSpanType = {
@@ -23,15 +24,13 @@ export const SuperEditableSpan = (props: SuperEditableSpanType) => {
     //-----------------------------------------------------------------
     return (
         editMode
-            ? <input
-                value={props.title}
-                type="text"
-                autoFocus
-                onChange={onChangeHandler}
-                onBlur={editChangeHandler}
-                onKeyDown={(e) => {
-                    onKeyDownHandler(e)
-                }}/>
+            ? <TextField variant='outlined'
+                       value={props.title}
+                       autoFocus
+                       onChange={onChangeHandler}
+                       onBlur={editChangeHandler}
+                       onKeyDown={(e) => {onKeyDownHandler(e)}}
+                       />
             : <span onDoubleClick={editChangeHandler}
             >{props.title}</span>
     )

@@ -4,7 +4,9 @@ import {SuperAddItemForm} from "./SuperComponents/SuperAddItemForm";
 import {v1} from "uuid";
 import {Tasks} from "./tasks";
 import {SuperEditableSpan} from "./SuperComponents/SuperEditableSpan";
-import Button from '@mui/material/Button';
+import {Button, Container, Grid, IconButton, Paper} from '@mui/material';
+import {Delete} from "@mui/icons-material";
+import {Header} from "./Header";
 
 export type FilterValueType = "All" | "Completed" | "Active"
 export type TodoListsType = {
@@ -75,11 +77,13 @@ function App() {
         tasks[todoListId] = newTask.filter(t => t.id !== id)
         setTasks({...tasks})
     }
+
     function ChangeTaskStatus(todoListId: string, id: string, newIsDone: boolean) {
         const task = tasks[todoListId].find(t => t.id === id)
         if (task) task.isDone = newIsDone
         setTasks({...tasks})
     }
+
     const ChangeTaskTitle = (todoListId: string, id: string, newTitle: string) => {
         const task = tasks[todoListId].find(t => t.id === id)
         if (task) task.title = newTitle
@@ -89,102 +93,99 @@ function App() {
 
     return (
         <div className={s.wrapper}>
-            <div>
-                <SuperAddItemForm
-                    addItem={addTodolist}
-                    title={'+'}
-                />
-            </div>
-            {toDoLists.map(tl => {
-                const removeTodolistHandler = () => {
-                    removeTodolist(tl.id)
-                }
-                const addTaskHandler = (title: string) => {
-                    addTask(tl.id, title)
-                }
-                const filteredTasks = (todoListId: string, value: FilterValueType) => {
-                    const toDo = toDoLists.find(tl => tl.id === todoListId)
-                    if (toDo) {
-                        tl.filter = value
-                        setToDoLists([...toDoLists])
-                    }
-                }
-                const ChangeTodoTitleHandler = (title: string) => {
-                    ChangeTodoTitle(tl.id, title)
-                }
+            <Header/>
+            <Container fixed>
+                <Grid container style={{padding: '20px'}}>
+                    <SuperAddItemForm
+                        addItem={addTodolist}
+                        title={'+'}
+                    />
+                </Grid>
+                <Grid container spacing={3}>
+                    {toDoLists.map(tl => {
+                        const removeTodolistHandler = () => {
+                            removeTodolist(tl.id)
+                        }
+                        const ChangeTodoTitleHandler = (title: string) => {
+                            ChangeTodoTitle(tl.id, title)
+                        }
+                        const addTaskHandler = (title: string) => {
+                            addTask(tl.id, title)
+                        }
+                        const filteredTasks = (todoListId: string, value: FilterValueType) => {
+                            const toDo = toDoLists.find(tl => tl.id === todoListId)
+                            if (toDo) {
+                                tl.filter = value
+                                setToDoLists([...toDoLists])
+                            }
+                        }
 
-                let allTasks = tasks[tl.id]
-                let tasksToShow = allTasks
-                if (tl.filter === "Completed") {
-                    tasksToShow = allTasks.filter(t => t.isDone)
-                }
-                if (tl.filter === "Active") {
-                    tasksToShow = allTasks.filter(t => !t.isDone)
-                }
+                        let allTasks = tasks[tl.id]
+                        let tasksToShow = allTasks
+                        if (tl.filter === "Completed") {
+                            tasksToShow = allTasks.filter(t => t.isDone)
+                        }
+                        if (tl.filter === "Active") {
+                            tasksToShow = allTasks.filter(t => !t.isDone)
+                        }
 
-                return (
-                    <div className={s.task}>
-                        <div className={s.title}>
-                            <h3><SuperEditableSpan
-                                title={tl.title}
-                                callback={ChangeTodoTitleHandler}/></h3>
-                            <Button
-                                onClick={removeTodolistHandler}
-                                variant="contained"
-                            >x</Button>
-                        </div>
-                        <div>
-                            <SuperAddItemForm
-                                addItem={addTaskHandler}
-                                title={"+"}
-                            />
-                        </div>
-                        <div>
-                            {tasksToShow.map((t,index) => {
-                                const OnChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                                    let newIsDone = e.currentTarget.checked
-                                    ChangeTaskStatus(tl.id, t.id, newIsDone)
-                                }
-                                const ChangeTaskTitleHandler = (newTitle: string) => {
-                                    ChangeTaskTitle(tl.id, t.id, newTitle)
-                                }
-                                const removeTaskHandler = () => {
-                                    removeTask(tl.id, t.id)
-                                }
-                                return (
-                                    <Tasks
-                                        key={index}
-                                        tasks={t.title}
-                                        isDone={t.isDone}
-                                        removeTask={removeTaskHandler}
-                                        OnChangeStatusHandler={OnChangeStatus}
-                                        ChangeTaskTitleHandler={ChangeTaskTitleHandler}
+                        return (
+                            <Grid item>
+                                <Paper style={{padding: '10px'}}>
+                                    <SuperEditableSpan
+                                        title={tl.title}
+                                        callback={ChangeTodoTitleHandler}/>
+                                    <IconButton onClick={removeTodolistHandler}><Delete/></IconButton>
+                                    <SuperAddItemForm
+                                        addItem={addTaskHandler}
+                                        title={"+"}
                                     />
-                                )
-                            })}
-                        </div>
-                        <div className={s.filterButton}>
-                            <button
-                                onClick={() => {
-                                    filteredTasks(tl.id, "All")
-                                }}
-                                className={(tl.filter === "All") ? s.activeFilter : ""}>All
-                            </button>
-                            <button
-                                onClick={() => {
-                                    filteredTasks(tl.id, "Active")
-                                }}
-                                className={(tl.filter === "Active") ? s.activeFilter : ""}>Active
-                            </button>
-                            <button onClick={() => {
-                                filteredTasks(tl.id, "Completed")
-                            }}
-                                    className={(tl.filter === "Completed") ? s.activeFilter : ""}>Completed
-                            </button>
-                        </div>
-                    </div>
-                )
-            })}
+                                    {tasksToShow.map((t, index) => {
+                                        const OnChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+                                            let newIsDone = e.currentTarget.checked
+                                            ChangeTaskStatus(tl.id, t.id, newIsDone)
+                                        }
+                                        const ChangeTaskTitleHandler = (newTitle: string) => {
+                                            ChangeTaskTitle(tl.id, t.id, newTitle)
+                                        }
+                                        const removeTaskHandler = () => {
+                                            removeTask(tl.id, t.id)
+                                        }
+                                        return (
+                                            <Tasks
+                                                key={index}
+                                                tasks={t.title}
+                                                isDone={t.isDone}
+                                                removeTask={removeTaskHandler}
+                                                OnChangeStatusHandler={OnChangeStatus}
+                                                ChangeTaskTitleHandler={ChangeTaskTitleHandler}
+                                            />
+                                        )
+                                    })}
+                                    <Button
+                                        onClick={() => {
+                                            filteredTasks(tl.id, "All")
+                                        }}
+                                        className={(tl.filter === "All") ? s.activeFilter : ""}>
+                                        All
+                                    </Button>
+                                    <Button
+                                        onClick={() => {
+                                            filteredTasks(tl.id, "Active")
+                                        }}
+                                        className={(tl.filter === "Active") ? s.activeFilter : ""}>Active
+                                    </Button>
+                                    <Button onClick={() => {
+                                        filteredTasks(tl.id, "Completed")
+                                    }}
+                                            className={(tl.filter === "Completed") ? s.activeFilter : ""}>Completed
+                                    </Button>
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Container>
         </div>
     )
 }

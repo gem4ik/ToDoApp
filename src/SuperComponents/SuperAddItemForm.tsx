@@ -1,6 +1,7 @@
-import {SuperButton} from "./SuperButton";
 import s from './SuperAddItemForm.module.css'
-import {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {IconButton, TextField} from "@mui/material";
+import {AddBox} from "@mui/icons-material";
 
 export type SuperAddItemFormProps = {
     addItem: (title: string)=>void
@@ -23,17 +24,14 @@ export const SuperAddItemForm =(props: SuperAddItemFormProps)=> {
 
     return(
         <div className={s.addItemForm}>
-            <input
-                value={title}
-                type="text"
-                onChange={onChangeHandler}
-                onKeyDown={onKeyDownHandler}
-                className={s.input}
-            />
-            <SuperButton
-                callback={onClickHandler}
-                title={props.title}
-            />
+            <TextField variant='outlined'
+                       value={title}
+                       onChange={onChangeHandler}
+                       onKeyDown={onKeyDownHandler}
+                       className={s.input}/>
+            <IconButton onClick={onClickHandler}>
+                <AddBox/>
+            </IconButton>
         </div>
     )
 }

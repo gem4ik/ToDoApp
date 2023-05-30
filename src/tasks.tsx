@@ -22,11 +22,11 @@ export const Tasks = (props: TasksPropsType) => {
     } = props
     return (
         <div className={s.tasks}>
-            <input
+            <Checkbox
+                color='primary'
                 className={s.checkBox}
-                type="checkbox"
-                   checked={isDone}
-                   onChange={props.OnChangeStatusHandler}
+                checked={isDone}
+                onChange={props.OnChangeStatusHandler}
             />
             <SuperEditableSpan
                 callback={ChangeTaskTitleHandler}
@@ -34,7 +34,6 @@ export const Tasks = (props: TasksPropsType) => {
             />
             <SuperButton
                 callback={props.removeTask}
-                title={'X'}
             />
         </div>
     );
