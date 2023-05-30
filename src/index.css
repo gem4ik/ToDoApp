@@ -7,9 +7,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   padding: 20px;
   display: flex;
-  background-image: url('https://cdn.wallpapersafari.com/40/17/6Gqkfu.jpg');
-  background-repeat: no-repeat;
-  background-size: 100%;
 }
 
 code {

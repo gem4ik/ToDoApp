@@ -1,9 +1,7 @@
 .wrapper {
     display: flex;
 }
-.wrapper button {
-    background-color: transparent;
-}
+
 .filterButton {
     display: flex;
     align-items: center;

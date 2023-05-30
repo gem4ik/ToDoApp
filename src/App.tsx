@@ -4,6 +4,7 @@ import {SuperAddItemForm} from "./SuperComponents/SuperAddItemForm";
 import {v1} from "uuid";
 import {Tasks} from "./tasks";
 import {SuperEditableSpan} from "./SuperComponents/SuperEditableSpan";
+import Button from '@mui/material/Button';
 
 export type FilterValueType = "All" | "Completed" | "Active"
 export type TodoListsType = {
@@ -127,10 +128,10 @@ function App() {
                             <h3><SuperEditableSpan
                                 title={tl.title}
                                 callback={ChangeTodoTitleHandler}/></h3>
-                            <button
-                                className={s.addTodoButton}
+                            <Button
                                 onClick={removeTodolistHandler}
-                            >X</button>
+                                variant="contained"
+                            >x</Button>
                         </div>
                         <div>
                             <SuperAddItemForm
@@ -150,7 +151,6 @@ function App() {
                                 const removeTaskHandler = () => {
                                     removeTask(tl.id, t.id)
                                 }
-
                                 return (
                                     <Tasks
                                         key={index}
