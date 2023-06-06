@@ -26,6 +26,7 @@ export function EditableSpan(props: EditableSpanPropsType) {
     return editMode
         ?    <TextField variant="outlined"
                         value={title}
+                        size='small'
                         onChange={changeTitle}
                         autoFocus
                         onBlur={activateViewMode} />
