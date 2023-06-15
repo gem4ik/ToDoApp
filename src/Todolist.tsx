@@ -1,11 +1,11 @@
 import React, {ChangeEvent} from 'react';
-import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import {FilterValuesType} from "./reducers/ReducersTodo";
 
 
 export type TaskType = {

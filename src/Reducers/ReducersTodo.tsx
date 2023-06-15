@@ -1,7 +1,24 @@
-import {FilterValuesType, TodolistType} from "../App";
+
+import {v1} from "uuid";
+
+export const  todolistId1 = v1();
+export const  todolistId2 = v1();
+
+export type FilterValuesType = "all" | "active" | "completed";
+
+export type TodolistType = {
+    id: string
+    title: string
+    filter: FilterValuesType
+}
 
 
-export const ReducersTodo =(state: TodolistType[], action: tsarType): TodolistType[]=> {
+const initialTodo: TodolistType[] = [
+    {id: todolistId1, title: "What to learn", filter: "all"},
+    {id: todolistId2, title: "What to buy", filter: "all"}
+]
+
+export const ReducersTodo =(state: TodolistType[] = initialTodo, action: tsarType): TodolistType[]=> {
     switch (action.type) {
         case 'CHANGE-FILTER': {
             let todolist = state.find(tl => tl.id === action.payload.todolistId);
