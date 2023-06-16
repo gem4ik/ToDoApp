@@ -1,5 +1,13 @@
-import {ReducersTasks, RemoveTasksAC, AddTasksAC, ChangeStatusAC, ChangeTaskTitleAC, RemoveToDoAC, AddTodoAc} from './ReducersTasks';
-import {TasksStateType} from '../App';
+import {
+    ReducersTasks,
+    RemoveTasksAC,
+    AddTasksAC,
+    ChangeStatusAC,
+    ChangeTaskTitleAC,
+    RemoveToDoAC,
+    AddTodoAc,
+    TasksStateType
+} from './ReducersTasks';
 
 test('ReducersTasks', () => {
     let startState: TasksStateType;

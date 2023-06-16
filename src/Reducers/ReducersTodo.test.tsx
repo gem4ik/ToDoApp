@@ -1,5 +1,11 @@
-import { ReducersTodo, ChangeFilterAC, RemoveTodolistAC, ChangeTodolistTitleAC, AddTodolistAC } from './ReducersTodo';
-import { TodolistType } from '../App';
+import {
+    ReducersTodo,
+    ChangeFilterAC,
+    RemoveTodolistAC,
+    ChangeTodolistTitleAC,
+    AddTodolistAC,
+    TodolistType
+} from './ReducersTodo';
 
 let startState: TodolistType[];
 
