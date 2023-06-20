@@ -41,7 +41,6 @@ export const Todolist = React.memo((props: PropsType) => {
 
     let allTodolistTasks = tasks[props.id];
     let tasksForTodolist = allTodolistTasks;
-
     if (props.filter === "active") {
         tasksForTodolist = allTodolistTasks.filter(t => !t.isDone);
     }
@@ -104,5 +103,3 @@ export const Todolist = React.memo((props: PropsType) => {
         </div>
     </div>
 })
-
-
