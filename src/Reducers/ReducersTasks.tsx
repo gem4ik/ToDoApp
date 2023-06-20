@@ -40,7 +40,6 @@ export const ReducersTasks = (state: TasksStateType = initialTask, action: tsarT
         }
         case "CHANGE-TASK-TITLE": {
             let todolistTasks = state[action.payload.todolistId];
-            debugger
             let task = todolistTasks.find(t => t.id === action.payload.id);
             if (task) {
                 task.title = action.payload.newTitle;

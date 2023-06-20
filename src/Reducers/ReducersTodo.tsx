@@ -44,6 +44,7 @@ export const ReducersTodo =(state: TodolistType[] = initialTodo, action: tsarTyp
         default: return state
     }
 }
+
 type tsarType = ChangeFilterACType | RemoveTodolistACType | ChangeTodolistTitleACType | AddTodolistACType
 
 export type ChangeFilterACType = ReturnType<typeof ChangeFilterAC>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
@@ -20,30 +20,30 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./reducers/Store";
 
 
-function App() {
+export const App = () => {
 
     const dispatch = useDispatch()
     const todolists = useSelector<AppRootState, TodolistType[]>(store => store.todolist)
 
-    function changeFilter(value: FilterValuesType, todolistId: string) {
-        dispatch(ChangeFilterAC(value,todolistId))
-    }
-    function removeTodolist(id: string) {
+    const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
+        dispatch(ChangeFilterAC(value, todolistId))
+    }, [])
+    const removeTodolist = useCallback((id: string) => {
         dispatch(RemoveTodolistAC(id))
         dispatch(RemoveToDoAC(id))
-    }
-    function changeTodolistTitle(id: string, title: string) {
+    }, [])
+    const changeTodolistTitle = useCallback((id: string, title: string) => {
         dispatch(ChangeTodolistTitleAC(id, title))
-    }
-    function addTodolist(title: string) {
+    }, [])
+    const addTodolist = useCallback((title: string) => {
         let newTodolistId = v1();
         dispatch(AddTodolistAC(title, newTodolistId))
         dispatch(AddTodoAc(newTodolistId))
-    }
+    }, [dispatch])
 
     return (
         <div className="App">
-            <ButtonAppBar />
+            <ButtonAppBar/>
             <Container fixed>
                 <Grid container style={{padding: "30px"}}>
                     <AddItemForm addItem={addTodolist}/>
@@ -71,4 +71,3 @@ function App() {
         </div>
     );
 }
-export default App
