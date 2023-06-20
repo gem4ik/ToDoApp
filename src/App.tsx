@@ -27,14 +27,14 @@ export const App = () => {
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
         dispatch(ChangeFilterAC(value, todolistId))
-    }, [])
+    }, [dispatch])
     const removeTodolist = useCallback((id: string) => {
         dispatch(RemoveTodolistAC(id))
         dispatch(RemoveToDoAC(id))
-    }, [])
+    }, [dispatch])
     const changeTodolistTitle = useCallback((id: string, title: string) => {
         dispatch(ChangeTodolistTitleAC(id, title))
-    }, [])
+    }, [dispatch])
     const addTodolist = useCallback((title: string) => {
         let newTodolistId = v1();
         dispatch(AddTodolistAC(title, newTodolistId))
