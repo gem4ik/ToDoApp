@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 import {UniversalButton} from "../UniversalButton/UniversalButton";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Tasks} from "../Tasks/Tasks";
@@ -6,6 +6,7 @@ import {FilterType, newStatusFilterAC, newTitleTodoAC, removeTodolistAC} from ".
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {useDispatch} from "react-redux";
 import {addNewTaskAC} from "../reduce/reducerTask";
+import s from './Todo.module.css'
 
 export type TodoPropsType = {
     todolistId: string
@@ -18,22 +19,21 @@ export const Todo = memo((props: TodoPropsType) => {
     let {todolistId, title, filterStatus} = props
     const dispatch = useDispatch()
 
-
     const removeTodolist = () => {
         dispatch(removeTodolistAC(todolistId))
     }
-    const addNewTask = (newTaskTitle: string) => {
+    const addNewTask = useCallback((newTaskTitle: string) => {
         dispatch(addNewTaskAC(todolistId, newTaskTitle))
+    }, [dispatch, todolistId])
+
+    const newTitleTodo = (newTodoTitle: string) => {
+        dispatch(newTitleTodoAC(todolistId, newTodoTitle))
     }
-    const newTitleTodo=(newTodoTitle:string)=>{
-dispatch(newTitleTodoAC(todolistId,newTodoTitle))
-    }
-    const newStatusFilter=(newStatus:FilterType)=>{
-dispatch(newStatusFilterAC(todolistId,newStatus))
+    const newStatusFilter = (newStatus: FilterType) => {
+        dispatch(newStatusFilterAC(todolistId, newStatus))
     }
     return (
-        <div>
-
+        <div className={s.todoWrapper}>
             <b><EditableSpan callback={newTitleTodo} oldTitle={title}/></b>
             <UniversalButton callback={removeTodolist} nameButton={"X"}/>
             <AddItemForm callback={addNewTask}/>
@@ -41,8 +41,6 @@ dispatch(newStatusFilterAC(todolistId,newStatus))
             <UniversalButton callback={() => newStatusFilter("All")} nameButton={"All"}/>
             <UniversalButton callback={() => newStatusFilter("Active")} nameButton={"Active"}/>
             <UniversalButton callback={() => newStatusFilter("Completed")} nameButton={"Completed"}/>
-
         </div>
-    );
-});
-
+    )
+})

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {memo, useCallback} from 'react';
 import {CheckBox} from "../CheckBox/CheckBox";
 import {UniversalButton} from "../UniversalButton/UniversalButton";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {useDispatch} from "react-redux";
 import {newCheckedStatusAC, newTitleTaskAC, removeTaskAC} from "../reduce/reducerTask";
+import s from './Task.module.css'
 
 
 export type TaskPropsType={
@@ -14,22 +15,25 @@ export type TaskPropsType={
 }
 
 
-export const Task = (props:TaskPropsType) => {
+export const Task = memo((props:TaskPropsType) => {
     let{checked,title,todolistId,taskId}=props
+
     const dispatch = useDispatch()
-const removeTask=()=>{
+
+    const removeTask=useCallback(()=>{
         dispatch(removeTaskAC(todolistId,taskId))
-}
-const newCheckedStatus=()=>{
+    },[dispatch, taskId, todolistId])
+    const newCheckedStatus=useCallback(()=>{
         dispatch(newCheckedStatusAC(todolistId,taskId))
-}
-const newTitleTask=(newTitle:string)=>{
-dispatch(newTitleTaskAC(todolistId,taskId,newTitle))
-}
+    },[dispatch, taskId, todolistId])
+    const newTitleTask= useCallback((newTitle:string)=>{
+        dispatch(newTitleTaskAC(todolistId,taskId,newTitle))
+    },[dispatch, taskId, todolistId])
     return (
-        <div><CheckBox callback={newCheckedStatus} checkedStatus={checked}/>
+        <div className={s.TaskWrapper}>
+            <CheckBox callback={newCheckedStatus} checkedStatus={checked}/>
             <EditableSpan callback={newTitleTask} oldTitle={title}/>
             <UniversalButton callback={removeTask} nameButton={"X"}/></div>
     );
-};
+})
 

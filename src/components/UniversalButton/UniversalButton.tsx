@@ -15,5 +15,5 @@ export const UniversalButton = (props:UniversalButtonPropsType) => {
     return (
         <button onClick={onClickHandler}>{nameButton}</button>
     );
-};
+}
 

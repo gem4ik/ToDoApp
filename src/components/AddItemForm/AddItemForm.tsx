@@ -1,35 +1,40 @@
-import React, {ChangeEvent, useState, KeyboardEvent, memo} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useCallback, useEffect, useState} from 'react';
 
-export type AddItemFormPropsType={
-    callback:(value:string)=>void
+export type AddItemFormPropsType = {
+    callback: (value: string) => void
+    storyError?: string
 }
 
 
-export const AddItemForm = memo((props:AddItemFormPropsType) => {
-let{callback}=props
-    const[value,setValue]=useState<string>("")
-    const [error,setError]=useState<string|null>(null)
+export const AddItemForm = (props: AddItemFormPropsType) => {
+    let {callback, storyError} = props
+    const [value, setValue] = useState<string>("")
+    const [error, setError] = useState<string | null>(null)
 
-    const onChangeHandler=(e:ChangeEvent<HTMLInputElement>)=>{
+    useEffect(()=>{
+        if (storyError) {
+            setError(storyError)
+        }
+    },[])
+
+    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
         setError(null)
-    }
-    const onKeyHandler=(e:KeyboardEvent<HTMLInputElement>)=>{
-    if (e.currentTarget.value==="Enter"){
-        onClickHandler()
-    }
-
-    }
-    const onClickHandler=()=>{
-        if(value.trim()!==""){
-            callback(value.trim())
-            setValue("")
-            setError(null)
+    },[])
+    const onClickHandler = useCallback(() => {
+         if (value.trim() !== "") {
+                callback(value.trim())
+                setValue("")
+                setError(null)
+            } else {
+                setError("Not correct")
+            }
+    }, [callback, value])
+    const onKeyHandler = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            onClickHandler()
         }
-        else{
-            setError("No corrected")
-        }
-    }
+    }, [onClickHandler])
 
     return (
         <div>
@@ -38,5 +43,4 @@ let{callback}=props
             {error && <span>{error}</span>}
         </div>
     );
-});
-
+}

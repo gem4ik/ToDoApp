@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {RootReduceType} from "../reduce/Store";
 import {addNewTodolistAC, InitialTodolistType} from "../reduce/reduceTodolist";
@@ -8,11 +8,11 @@ import {AddItemForm} from "../AddItemForm/AddItemForm";
 export const Todolists = () => {
     const dispatch = useDispatch()
     const todolists = useSelector<RootReduceType, InitialTodolistType[]>(state => state.todolist)
-const addNewTodolist=(newTitle:string)=>{
-        dispatch(addNewTodolistAC(newTitle))
+const addNewTodolist=useCallback((newTitle:string)=>{
+    dispatch(addNewTodolistAC(newTitle))
 
 
-}
+},[dispatch])
 
     return (
         <div>
@@ -29,6 +29,5 @@ const addNewTodolist=(newTitle:string)=>{
                 })
             }
         </div>
-    );
-};
-
+    )
+}
