@@ -1,13 +1,13 @@
 import React from 'react';
 
-export type CheckBoxPropsType= {
+export type CheckBoxPropsType = {
     callback: () => void
     checkedStatus: boolean
 }
 
-export const CheckBox = (props:CheckBoxPropsType) => {
-    let{callback,checkedStatus}=props
-    const onClickHandler=()=>{
+export const CheckBox = (props: CheckBoxPropsType) => {
+    let {callback, checkedStatus} = props
+    const onClickHandler = () => {
         callback()
     }
     return (

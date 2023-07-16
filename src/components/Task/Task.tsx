@@ -1,10 +1,11 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {CheckBox} from "../CheckBox/CheckBox";
 import {UniversalButton} from "../UniversalButton/UniversalButton";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {useDispatch} from "react-redux";
-import {newCheckedStatusAC, newTitleTaskAC, removeTaskAC} from "../reduce/reducerTask";
+import {addNewTaskAC, newCheckedStatusAC, newTitleTaskAC, removeTaskAC} from "../reduce/reducerTask";
 import s from './Task.module.css'
+import axios from "axios/index";
 
 
 export type TaskPropsType={
