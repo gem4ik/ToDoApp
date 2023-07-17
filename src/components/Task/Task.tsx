@@ -1,11 +1,10 @@
-import React, {memo, useCallback, useEffect} from 'react';
+import React, {memo, useCallback} from 'react';
 import {CheckBox} from "../CheckBox/CheckBox";
 import {UniversalButton} from "../UniversalButton/UniversalButton";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {useDispatch} from "react-redux";
-import {addNewTaskAC, newCheckedStatusAC, newTitleTaskAC, removeTaskAC} from "../reduce/reducerTask";
+import {newCheckedStatusAC, newTitleTaskAC, removeTaskAC} from "../reduce/reducerTask";
 import s from './Task.module.css'
-import axios from "axios/index";
 
 
 export type TaskPropsType={
@@ -14,7 +13,6 @@ export type TaskPropsType={
     todolistId:string
     taskId:string
 }
-
 
 export const Task = memo((props:TaskPropsType) => {
     let{checked,title,todolistId,taskId}=props
@@ -37,4 +35,3 @@ export const Task = memo((props:TaskPropsType) => {
             <UniversalButton callback={removeTask} nameButton={"X"}/></div>
     );
 })
-
